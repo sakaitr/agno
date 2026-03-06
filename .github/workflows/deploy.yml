@@ -62,25 +62,20 @@ jobs:
           fi
           cp apps/web/server.js deploy/server.js
           echo '{"name":"agno-web","version":"0.1.0","private":true,"scripts":{"start":"node server.js"},"engines":{"node":">=18"}}' > deploy/package.json
+          mkdir -p deploy/tmp
+          touch deploy/tmp/restart.txt
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
-
-      - name: Deploy via rsync
-        run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no" \
-            deploy/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/agno/
-
-      - name: Restart app (Passenger)
-        run: |
-          ssh -i ~/.ssh/deploy_key \
-            -p ${{ secrets.SSH_PORT || '22' }} \
-            -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "mkdir -p ~/agno/tmp && touch ~/agno/tmp/restart.txt && echo 'App restarted'"
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./deploy/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.env
+            **/.env.*
+            **/node_modules/**
+            **/.git/**
