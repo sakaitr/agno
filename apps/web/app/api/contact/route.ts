@@ -3,8 +3,6 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const contactSchema = z.object({
   fullName: z.string().min(2, "Ad soyad en az 2 karakter olmalıdır."),
   email: z.string().email("Geçerli bir e-posta adresi giriniz."),
@@ -35,6 +33,7 @@ export async function POST(req: NextRequest) {
 
     // Send notification email
     if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
         from: `AGNO Website <${process.env.RESEND_FROM_EMAIL || "noreply@agno.com.tr"}>`,
         to: ["info@agno.com.tr"],
