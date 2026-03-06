@@ -1,0 +1,61 @@
+{
+  "Yeni Proje Başlangıç Şablonu": {
+    "prefix": "yeniproje",
+    "description": "Copilot için proje başlangıç prompt şablonu",
+    "body": [
+      "Sıfırdan bir proje geliştireceğim. Aşağıdaki bilgilere göre bana yol göster.",
+      "",
+      "## Proje Fikri",
+      "$1",
+      "",
+      "## Hedef Kullanıcı",
+      "$2",
+      "",
+      "## Teknoloji",
+      "$3",
+      "",
+      "## Veritabanı",
+      "Kullanıcı hesabı: $4",
+      "Veri nerede: $5",
+      "Karmaşıklık: $6",
+      "",
+      "## MVP - Mutlaka Olması Gerekenler",
+      "1. $7",
+      "2. $8",
+      "3. $9",
+      "",
+      "## Sonraya Bırakılanlar (v2)",
+      "- $10",
+      "",
+      "Önce klasör yapısı, DB şeması ve adım adım plan ver.",
+      "Onayladıktan sonra koda geç."
+    ]
+  },
+  "Yeni Proje Hızlı": {
+    "prefix": "yeniprojehizli",
+    "description": "Hızlı proje başlangıç prompt şablonu",
+    "body": [
+      "Yeni proje: $1",
+      "Kullanıcı: $2",
+      "Stack: $3",
+      "Veritabanı: $4",
+      "MVP'de sadece şunlar olsun: $5",
+      "",
+      "Klasör yapısı, DB şeması ve ilk adım planını ver. Onayladıktan sonra koda geç."
+    ]
+  },
+  "Veritabanı Seçim Yardımcısı": {
+    "prefix": "dbsec",
+    "description": "Veritabanı seçimi için prompt",
+    "body": [
+      "Projem için hangi veritabanını önerirsin?",
+      "",
+      "Kullanıcı sayısı tahmini: $1",
+      "Gerçek zamanlı veri: $2",
+      "Veri yapısı: $3",
+      "Hosting tercihi: $4",
+      "",
+      "Bana 2 seçenek ver: biri kolay/güvenli, diğeri güçlü ama karmaşık."
+    ]
+  }
+}

@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* AGNO dark editorial design system */
+    --bg: #080808;
+    --fg: #f0ede8;
+    --dim: rgba(240, 237, 232, 0.52);
+    --line: rgba(240, 237, 232, 0.08);
+    --gold: #e8d5a3;
+
+    /* Shadcn/Radix compatible CSS vars */
+    --background: 0 0% 3%;
+    --foreground: 30 18% 94%;
+
+    --card: 0 0% 4%;
+    --card-foreground: 30 18% 94%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 30 18% 94%;
+
+    --primary: 38 60% 77%;
+    --primary-foreground: 0 0% 3%;
+
+    --secondary: 0 0% 7%;
+    --secondary-foreground: 30 18% 94%;
+
+    --muted: 0 0% 7%;
+    --muted-foreground: 30 10% 45%;
+
+    --accent: 38 60% 77%;
+    --accent-foreground: 0 0% 3%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 30 18% 94%;
+
+    --border: 0 0% 10%;
+    --input: 0 0% 10%;
+    --ring: 38 60% 77%;
+
+    --radius: 0rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ─── CUSTOM CURSOR ─── */
+.cursor {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--fg);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(240, 237, 232, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.18s ease;
+  mix-blend-mode: difference;
+}
+
+/* ─── SECTION UTILITIES ─── */
+.section-num {
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+  margin-bottom: 80px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--font-geist-mono), monospace;
+  text-transform: uppercase;
+}
+
+.section-num::after {
+  content: '';
+  flex: 1;
+  max-width: 60px;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.on {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ─── MARQUEE ─── */
+.marquee-wrap {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  padding: 18px 0;
+  background: var(--bg);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track span {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 0 40px;
+}
+
+.marquee-track .dot {
+  color: var(--gold);
+  padding: 0;
+}
+
+/* ─── GHOST BUTTON ─── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(240, 237, 232, 0.2);
+  transition: all 0.4s;
+  cursor: none;
+}
+
+.btn-ghost:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  gap: 22px;
+}
+
+/* ─── MAIN CTA BUTTON ─── */
+.btn-main {
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--fg);
+  text-decoration: none;
+  padding: 18px 44px;
+  transition: all 0.4s;
+  display: inline-block;
+  cursor: none;
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.btn-main:hover {
+  background: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* ─── DOMAIN LINK ─── */
+.domain-link {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.4s;
+  cursor: none;
+}
+
+.domain-link:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.domain-link:hover {
+  color: var(--gold);
+  padding-left: 12px;
+}
+
+/* ─── SCROLL PULSE ─── */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(0.6); }
+}
+
+/* ─── MARQUEE KEYFRAME ─── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ─── GLASS (for admin panel) ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-hover {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Legacy section classes (still used in admin / other pages) */
+.section-padding {
+  @apply py-20 lg:py-28;
+}
+
+.section-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: 0.82rem;
+  line-height: 1.85;
+  color: var(--dim);
+  max-width: 40rem;
+}
+
+/* ─── TEXT GRADIENT (inner pages) ─── */
+.text-gradient {
+  background: linear-gradient(135deg, var(--gold) 0%, rgba(232,213,163,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── PAGE LAYOUT HELPERS ─── */
+.page-hero {
+  padding: clamp(120px, 14vw, 180px) clamp(24px, 5vw, 56px) clamp(60px, 8vw, 100px);
+  border-bottom: 1px solid var(--line);
+}
+.page-body {
+  padding: clamp(60px, 10vw, 120px) clamp(24px, 5vw, 56px);
+}
+
+/* Text selection */
+::selection {
+  background: rgba(232, 213, 163, 0.25);
+  color: var(--fg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 0;
+}
