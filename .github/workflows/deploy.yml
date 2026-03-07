@@ -59,7 +59,7 @@ jobs:
             cp -r apps/web/public deploy/apps/web/public
           fi
           cp apps/web/server.js deploy/server.js
-          echo '{"name":"agno-web","version":"0.1.0","private":true,"scripts":{"start":"node server.js"},"engines":{"node":">=18"}}' > deploy/package.json
+          echo '{"name":"agno-web","version":"0.1.0","private":true,"scripts":{"start":"node server.js"},"dependencies":{"next":"14.2.35"},"engines":{"node":">=18"}}' > deploy/package.json
           mkdir -p deploy/tmp
           touch deploy/tmp/restart.txt
 
@@ -75,4 +75,5 @@ jobs:
           exclude: |
             **/.env
             **/.env.*
+            **/node_modules/**
             **/.git/**
