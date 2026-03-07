@@ -63,20 +63,27 @@ jobs:
           mkdir -p deploy/tmp
           touch deploy/tmp/restart.txt
 
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./deploy/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          dangerous-clean-slate: false
-          timeout: 120000
-          log-level: verbose
-          security: loose
-          exclude: |
-            **/.env
-            **/.env.*
-            **/node_modules/**
-            **/.git/**
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          lftp -c "
+            set ftp:ssl-allow yes;
+            set ssl:verify-certificate no;
+            set ftp:passive-mode yes;
+            set net:timeout 60;
+            set net:max-retries 5;
+            set net:reconnect-interval-base 5;
+            open -u '$FTP_USER','$FTP_PASS' ftp://$FTP_HOST;
+            mirror --reverse --delete --verbose \
+              --exclude '^\.env' \
+              --exclude '^\.git' \
+              --exclude 'node_modules/' \
+              ./deploy/ $FTP_DIR
+          "
